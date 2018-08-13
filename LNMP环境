@@ -1,0 +1,100 @@
+docker-compose.yml
+version: '3'
+
+services:
+  app:
+    image: nginx:latest
+    restart: always
+    links:
+      - php
+    depends_on:
+      - mysql
+    ports:
+      - "8080:80"
+    volumes:
+      - "/home/foufou/test/:/usr/share/nginx/html"
+      - "/home/foufou/nginx/:/etc/nginx/conf.d/"
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - "/db_data:/var/lib/mysql"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 数据库root密码
+      MYSQL_DATABASE: 数据库名
+      MYSQL_USER: 账户
+      MYSQL_PASSWORD: 密码
+    ports:
+      - 3306:3306
+	volumes:
+	  - "/home/foufou/mysql/data/:/var/lib/mysql"
+  php:
+    image: php:7.0-fpm
+    links:
+      - mysql
+    volumes:
+      - "/home/foufou/test/:/var/www/html"
+    ports:
+      - "9000:9000"
+	  
+	  
+#下面是配置docker国内源	  
+#sudo mkdir -p /etc/docker
+#sudo tee /etc/docker/daemon.json <<-'EOF'
+#{
+#  "registry-mirrors": ["https://usjdiouo.mirror.aliyuncs.com"]
+#}
+#EOF
+#sudo systemctl daemon-reload
+#sudo systemctl restart dockercd
+
+
+nginx配置
+server {
+    listen       80;
+    server_name  localhost;
+    
+    index index.html index.htm index.php;
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    location / {
+        root   /usr/share/nginx/html;            #这个目录就是nginx容器的目录 不能动
+        index  index.html index.htm index.php;   # 增加index.php
+    }
+
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+
+    # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+    #
+    #location ~ \.php$ {
+    #    proxy_pass   http://127.0.0.1;
+    #}
+
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    #
+    location ~ \.php$ {
+        root           /var/www/html;   # 代码目录   这个是php容器里边的代码的目录
+        index index.html index.html index.htm index.php;  
+        fastcgi_pass   php:9000;        # 修改为php容器
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;   # 修改为$document_root
+        include        fastcgi_params;
+    }
+
+    # deny access to .htaccess files, if Apache's document root
+    # concurs with nginx's one
+    #
+    #location ~ /\.ht {
+    #    deny  all;
+    #}
+}
+
+
