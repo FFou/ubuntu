@@ -1,0 +1,18 @@
+##安装软件
+#### rpm安装
+ - **|** 表示管道用法，会把前面查询的结果做为输入放在后面，再通过grep命令去进行搜索匹配行。
+ - rpm二进制软件包安装就是执行 **rpm** -i（安装软件包）v（显示进度）h（hash标记） software_name.rpm
+ - 卸载是 rpm -e 强制卸载是 rpm -e software_name --nodeps
+ - rpm -qa |grep software 查询是否安装某个软件
+#### 源代码安装
+- 下载或上传.tar  tar.gz到服务器    
+- 检查编译工具 gcc -v
+- 解压源代码包
+- 执行./configure  --prefix=/usr/local  (可以指定路径)
+- make
+- sudo make install            
+####普通安装
+- apt方式：apt-get install softname1 softname2 …;            
+- dpkg方式：dpkg -i package_name.deb  
+- yum方式：yum install -y softwarename  
+- deb包安装：dpkg -i *.deb
