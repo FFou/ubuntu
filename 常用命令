@@ -1,0 +1,19 @@
+# 查看所有服务
+  service --status-all
+# 重启服务
+  service docker status|stop|start|restart
+# 查看版本
+  lsb_release -a
+# 查看磁盘
+  df -Th
+# 查看资源
+  top
+# 查看内存
+  free -g
+# 复制命令
+  sudo scp -r user@ip:/home/user/ .
+# 打包命令
+  sudo tar -cvf /home/zzjh/gitbackup/$(date -d "today" +"%Y%m%d").tar /home/zzjh/gitlab
+# 解压命令
+  sudo tar -xvf /home/zzjh/gitbackup/$(date -d "today" +"%Y%m%d").tar -C /home/zzjh
+  
