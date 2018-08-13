@@ -16,4 +16,6 @@
   sudo tar -cvf /home/zzjh/gitbackup/$(date -d "today" +"%Y%m%d").tar /home/zzjh/gitlab
 # 解压命令
   sudo tar -xvf /home/zzjh/gitbackup/$(date -d "today" +"%Y%m%d").tar -C /home/zzjh
-  
+# 查找历史命令
+  history |grep 关键字
+ 
