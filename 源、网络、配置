@@ -17,7 +17,8 @@ address 192.168.0.225
         gateway 192.168.0.0
         dns-nameservers 8.8.8.8
  
-sudo /etc/init.d/networking restart
+ubuntu14.04重启网卡命令是 sudo ifdown p2p1 && sudo ifup p2p1
+ubuntu16.04重启网卡命令是 sudo /etc/init.d/networking restart
      
 # 源
 sudo vi /etc/apt/source.list
